@@ -33,18 +33,18 @@ void bwrite(int block_num, unsigned char *block) {
 
 
 
-void alloc(void) {
-    unsigned char block[blockSize];
+// void alloc(void) {
+//     unsigned char block[blockSize];
 
-    // Call bread() to get the inode map
-    bread(0, block);
+//     // Call bread() to get the inode map
+//     bread(0, block);
 
-    // Call find_free() to locate a free inode
-    int free_inode = find_free(block);
+//     // Call find_free() to locate a free inode
+//     int free_inode = find_free(block);
 
-    // Call set_free() to mark the inode as non-free
-    set_free(free_inode, 1, 0);
+//     // Call set_free() to mark the inode as non-free
+//     set_free(free_inode, 1, 0);
 
-    // Call bwrite() to save the inode back out to disk
-    bwrite(0, block);
-}
+//     // Call bwrite() to save the inode back out to disk
+//     bwrite(0, block);
+// }

@@ -7,10 +7,10 @@ int inode_map[BLOCK_SIZE]; // Inode map array
 
 int ialloc(void) {
     for (int i = 0; i < BLOCK_SIZE; i++) {
-        if (inode_map[i] == 0) { // Check if inode is free
-            inode_map[i] = 1; // Mark inode as allocated
-            return i; // Return the inode number
+        if (inode_map[i] == 0) { 
+            inode_map[i] = 1; 
+            return i; 
         }
     }
-    return -1; // No free inodes found
+    return -1; 
 }
