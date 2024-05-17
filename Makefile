@@ -21,6 +21,9 @@ inode.o: inode.c
 
 .PHONY: clean pristine
 
+test: testfs
+	./testfs
+
 clean: 
 	rm -f *.o
 
