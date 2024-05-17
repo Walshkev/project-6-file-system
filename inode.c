@@ -1,16 +1,25 @@
 #include <stdio.h>
 #include "block.h"
+#include "inode.h"
+#include "free.h"
 
-
-
-int inode_map[BLOCK_SIZE]; // Inode map array
 
 int ialloc(void) {
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-        if (inode_map[i] == 0) { 
-            inode_map[i] = 1; 
-            return i; 
-        }
+
+    unsigned char inode_map[BLOCK_SIZE];
+    
+   
+    bread(BLOCK_NUM,  inode_map);
+
+
+    int free_inode= find_free(inode_map) ;
+
+
+    if (free_inode!=-1 ) {
+        set_free( inode_map, free_inode, 1);
+        bwrite(BLOCK_NUM , inode_map);
+
+
     }
-    return -1; 
+    return free_inode; 
 }

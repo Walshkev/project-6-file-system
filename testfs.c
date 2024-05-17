@@ -73,38 +73,50 @@ void test_inode_ialloc(void){
 
     
     // Fill up block with 0xFF
-    for (int i = 0; i < BLOCK_SIZE; i++) {
-        inode_map[i] =1;
-    }
+    unsigned char inode_map[BLOCK_SIZE];
+    bwrite(INODE_BLOCK_NUM, inode_map);
 
     int free_inode = ialloc();
+    CTEST_ASSERT(free_inode == 0, "test inode when empty  " );
     // printf("Free inode found at index: %d\n", free_inode);
-    CTEST_ASSERT(free_inode == -1, "test inode when full " );
 
-    inode_map[20]=0;
-    free_inode = ialloc();
+    int second_free_node= ialloc();
+
+    CTEST_ASSERT(second_free_node== 1, "test inode when full " );
+
     // printf("Free inode found at index: %d\n", free_inode);
-    CTEST_ASSERT(free_inode == 20, "test inode when not full " );
-
-
-
-
-
+    
+    int no_free_node = ialloc();
+    CTEST_ASSERT(no_free_node !=-1, "test inode when not full " );
 }
 
-// void test_alloc(void){
 
-   
-//     // Fill up block with 0xFF
+
+
+void test_alloc(void){
+
+    CTEST_ASSERT(image_open("file_name.txt", 1 ) != -1 , "testing trunk is 0 ");
+  // Fill up block with 0xFF
+    unsigned char block_map[BLOCK_SIZE] = {0};
+
+    bwrite(BLOCK_NUM, block_map);
+    bread(BLOCK_NUM, block_map);
   
 
-//     int free_inode = alloc();
-//     printf("Free inode found at index: %d\n", free_inode);
-//     CTEST_ASSERT(free_inode == -1, "test inode when full " );
+    int block1 = alloc();
+    CTEST_ASSERT(block1 == 0, "test inode when empty  " );
+    // printf("Free inode found at index: %d\n", free_inode);
 
+    int block2= alloc();
 
+    CTEST_ASSERT(block2== 1, "test inode when full " );
 
-// }
+    // printf("Free inode found at index: %d\n", free_inode);
+    
+    int block3 = alloc();
+    CTEST_ASSERT(block3 !=-1, "test inode when not full " );
+}
+
 
 
 
@@ -112,7 +124,7 @@ void test_inode_ialloc(void){
 int main(void)
 {
  
-//     // printf("Running normally!\n");
+
 
     CTEST_VERBOSE(1);
 
@@ -122,13 +134,8 @@ int main(void)
     test_set_free();
     test_find_free();
     test_inode_ialloc();
-    // test_alloc();
+    test_alloc();
   
 
-    // printf("file_image = %d\n", image_open("file_name.txt", 200) );
-    // // printf("file close = %d\n" , image_close() );
-    // printf("bread test= %d\n",*bread(1, block) );
-    // bwrite(1, block );
-    // // printf( "bwrite test= %hhn\n" , block);
 }
 
